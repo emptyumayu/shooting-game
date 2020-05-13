@@ -71,6 +71,7 @@ class Character {
          * @type {number}
          */
         this.life = life;
+        this.vector = new Position(0.0, -1.0);
         /**
          *  @type {boolean}
          */
@@ -292,7 +293,7 @@ class Viper extends Character {
                 if(this.shotCheckCounter >= 0){
                     let i;
                     // ショットの生存を確認し非生存のものがあれば生成する
-                    for(let i = 0; i < this.shotArray.length; ++i){
+                    for(i = 0; i < this.shotArray.length; ++i){
                     // 非生存かどうかを確認する
                         if(this.shotArray[i].life <= 0){
                         // 自機キャラクターの座標にショットを生成する
@@ -390,7 +391,7 @@ class Shot extends Character {
             this.position.y += this.vector.y * this.speed;
 
             // ショットを描画する
-            this.rotationdraw();
+            this.rotationDraw();
             
         }
 }
