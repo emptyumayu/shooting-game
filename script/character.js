@@ -243,7 +243,7 @@ class Viper extends Character {
     }
 
     update(){
-        // 現時点のタイムスタンプを所得する
+        // 現時点のタイムスタンプを取得する
         let justTime = Date.now();
 
         
@@ -394,5 +394,34 @@ class Shot extends Character {
             this.rotationDraw();
             
         }
+}
+
+/**
+ * enemy クラス
+ */
+class Enemy extends Character {
+    constructor(ctx, x, y, w, h, imagePath){
+        super(ctx, x, y, w, h, 0, imagePath);
+        this.speed = 3;
+    }
+
+    set(x, y, life = 1){
+        this.position.set(x, y);
+        this.life = life;
+    }
+
+    update(){
+        if(this.lide <= 0){return;}
+        //  キャラクタが画面外（画面下端）に移動していたら非生存にする
+        if(this.position.y - this.height > this.ctx.canvas.height){
+            this.life = 0;
+        }
+
+        // 上に進む
+        this.position.x += this.vector.x * this.speed;
+        this.position.y += this.vector.y * this.speed;
+
+        this.draw();
+    }
 }
 
