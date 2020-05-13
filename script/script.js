@@ -24,6 +24,11 @@
      * @type {number}
      */
     const SHOT_MAX_COUNT = 10;
+    /**
+     * 敵キャラのインスタンス数
+     * @type {number}
+     */
+    const ENEMY_MAX_COUNT = 10;
 
     /**
      * Canvas2D API をラップしたユーティリティクラス
@@ -61,6 +66,11 @@
      * @type {Array<shot>}
      */
     let singleShotArray = [];
+    /**
+     * 敵キャラのインスタンスを格納する配列
+     * @type {Array<Enemy>}
+     */
+    let enemyArray = [];
 
     /**
      * ページのロードが完了したときに発火する load イベント
@@ -81,6 +91,7 @@
      * canvas やコンテキストを初期化する
      */
     function initialize(){
+        let i;
         // canvas の大きさを設定
         canvas.width = CANVAS_WIDTH;
         canvas.height = CANVAS_HEIGHT;
@@ -95,10 +106,15 @@
         );
 
         // ショットを初期化する
-        for(let i = 0; i < SHOT_MAX_COUNT; ++i){
+        for(i = 0; i < SHOT_MAX_COUNT; ++i){
             shotArray[i] = new Shot(ctx, 0, 0, 32, 32, './image/viper_shot.png');
             singleShotArray[i * 2] = new Shot(ctx, 0, 0, 32, 32, './image/viper_single_shot.png');
             singleShotArray[i * 2 + 1] = new Shot(ctx, 0, 0, 32, 32, './image/viper_single_shot.png');
+        }
+
+        // 敵キャラを初期化
+        for(i = 0; i < ENEMY_MAX_COUNT; ++i){
+            enemyArray[i] = new Enemy(ctx, 0, 0, 48, 48, './image/enemy_small.pmg');
         }
         viper.setShotArray(shotArray, singleShotArray); // ショットを自機キャラクターに設定する
     }
@@ -116,6 +132,11 @@
         singleShotArray.map((v) => {
             ready = ready && v.ready;
         });
+
+        // 同様に的キャラクターの準備状況も確認する
+        enemyArray.map((v) => {
+            ready = ready && v.ready;
+        })
 
         // すべての準備が完了したら次の処理に進む
         if(ready === true){
@@ -166,6 +187,11 @@
             v.update();
         });
         singleShotArray.map((v) => {
+            v.update();
+        });
+        
+        // 敵キャラクターの状態を更新する
+        enemyArray.map((v) => {
             v.update();
         });
 
