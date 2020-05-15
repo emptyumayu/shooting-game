@@ -87,6 +87,11 @@ class Character {
         this.image.src = imagePath;
     }
 
+    setVector(x, y){
+        // 自身の vector プロパティに設定する
+        this.vector.set(x, y);
+    }
+
     /**
      * 進行方向を角度を元に設定する
      * @param {number} angle - 回転量（ラジアン）
